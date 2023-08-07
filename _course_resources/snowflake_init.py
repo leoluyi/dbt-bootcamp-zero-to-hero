@@ -30,9 +30,7 @@ def get_snowflake_connection(profile):
     schema = profile['schema']
 
     engine = create_engine(f'snowflake://{user}:{password}@{account}/{database}/{schema}?warehouse={warehouse}')
-    connection = engine.connect()
-
-    return connection
+    return engine.connect()
 
 def read_sql_from_md(file_path):
     with open(file_path, 'r') as f:
@@ -42,9 +40,11 @@ def read_sql_from_md(file_path):
     soup = BeautifulSoup(html, 'html.parser')
 
     code_blocks = soup.find_all('code')
-    sql_blocks = [block.text for block in code_blocks if block.get('class') and 'sql' in block.get('class')]
-
-    return sql_blocks
+    return [
+        block.text
+        for block in code_blocks
+        if block.get('class') and 'sql' in block.get('class')
+    ]
 
 def execute_sql(connection, sql_blocks):
     for sql in sql_blocks:
