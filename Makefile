@@ -4,4 +4,4 @@ create-venv:
 
 sync-venv:./venv/bin/activate
 	@echo "Syncing virtual environment..."
-	@. ./venv/bin/activate && pipenv sync --dev
+	@. ./venv/bin/activate && pip-sync
