@@ -4,6 +4,12 @@ dbt-run:
 		&& . ./venv/bin/activate \
 		&& dbt run
 
+@PHONY: dbt-snapshot
+dbt-snapshot:
+	@export $$(grep -v '^#' .env | xargs) && echo "(exported env)" \
+		&& . ./venv/bin/activate \
+		&& dbt snapshot
+
 @PHONY: dbt-compile
 dbt-compile:
 	@export $$(grep -v '^#' .env | xargs) && echo "(exported env)" \
